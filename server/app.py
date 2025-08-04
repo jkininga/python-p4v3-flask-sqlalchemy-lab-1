@@ -1,7 +1,7 @@
 # server/app.py
 #!/usr/bin/env python3
 
-from flask import Flask, make_response, jsonify
+from flask import Flask, make_response
 from flask_migrate import Migrate
 
 from models import db, Earthquake
@@ -27,9 +27,9 @@ def filter_by_id(id):
     earthquakeitem = Earthquake.query.get(id)
     
     if earthquakeitem:
-        return  jsonify(earthquakeitem.to_dict()), 200
+        return  earthquakeitem.to_dict(), 200
     
-    return jsonify({"message": f"Earthquake {id} not found."}), 404
+    return {"message": f"Earthquake {id} not found."}, 404
         
     
 
@@ -37,7 +37,7 @@ def filter_by_id(id):
 def filter_by_magnitude(magnitude):
     results = Earthquake.query.filter(Earthquake.magnitude>= magnitude).all()
     
-    return jsonify({"count": len(results), "quakes": [result.to_dict() for result in results]})
+    return {"count": len(results), "quakes": [result.to_dict() for result in results]}
     
     
 
